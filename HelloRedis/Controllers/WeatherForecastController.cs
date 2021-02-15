@@ -19,7 +19,7 @@ namespace HelloRedis.Controllers
             "ReportHubRedisInstance.redis.cache.windows.net:6380,password=6DGfDR5uaTiJCYowyEvWaW3ETM0sqopvTS8qSvMh44Q=,ssl=True,abortConnect=False";
         private static IDatabase database;
 
-        private static readonly string[] Summaries = new[]
+        private string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
@@ -49,6 +49,10 @@ namespace HelloRedis.Controllers
             database = connection.GetDatabase(0);
             database.StringSet("message", "Welcome to Redis!!");
 
+            String redisMessage = database.StringGet("message");
+
+            Summaries.Append(redisMessage);
+
 
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
@@ -59,5 +63,13 @@ namespace HelloRedis.Controllers
             })
             .ToArray();
         }
+
+
+
     }
+
+
+
+
+
 }
